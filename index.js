@@ -1,25 +1,15 @@
-const jsonserver=require("json-server")
-const cors=require("cors")
+const jsonServer = require("json-server");
+const cors = require("cors");
+const server = jsonServer.create();
+const router = jsonServer.router("db.json");
+const middlewares = jsonServer.defaults();
 
 
-const server=jsonserver.create()
-const router=jsonserver.router("db.json")
-// const middlewares=jsonserver.defaults()
+server.use(cors());
+server.use(middlewares);
+server.use(router);
+server.use(jsonServer.bodyParser);
 
-server.use(cors())
-server.use(jsonserver.bodyParser)
-// server.use(middlewares)
-
-// server.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//     next();
-//   });
-
-server.use(router)
-
-const PORT=8080
-
-server.listen(PORT,()=>{
-    console.log("JSON Server running At PORT:8080")
-})
+server.listen(8080, () => {
+  console.log("JSON Server is running on port 8080");
+});
